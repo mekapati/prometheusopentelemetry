@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otel-collector
+  namespace: postgres
+  labels:
+    app: opentelemetry
+    component: otel-collector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opentelemetry
+      component: otel-collector
+  template:
+    metadata:
+      labels:
+        app: opentelemetry
+        component: otel-collector
+    spec:
+      serviceAccountName: otel-collector-sa
+      containers:
+      - name: otel-collector
+        image: otel/opentelemetry-collector-contrib:0.24.0
+        envFrom:
+          - secretRef:
+              name: otel-collector-aws-creds
+        ports:
+        - containerPort: 8888     
+        volumeMounts:
+        - name: config
+          mountPath: /etc/otel/config.yaml
+          subPath: config.yaml
+          readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: otel-collector-conf

@@ -1,0 +1,13 @@
+create one security group with rule 443 and 22 allow all traffic 
+create one EC2 instance and attach above created security group 
+create one RDS and attach above security group 
+update the security group with 5432 rule 
+
+
+
+service catalogs 
+create security group in service catalog
+create ec2 product in service catalog
+refer service catalog product from cloud formation  and deploy the product into cloud formation 
+
+copying objects form one s3 bucket to other S3 bucket using python code 
